@@ -60,6 +60,66 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </script>
 </head>
 <body unresolved>
+
+
+
+
+
+  <style>
+    paper-tooltip {
+      --paper-tooltip-delay-in: 100ms;
+      --paper-tooltip-duration-in: 100ms;
+      --paper-tooltip-duration-out: 100ms;
+      --paper-tooltip-min-width: none;
+
+			--paper-tooltip_-_border-radius: var(--paper-tooltip-border-radius, 2px);
+			--paper-tooltip_-_font-size: 92.31%;
+			--paper-tooltip_-_font-weight: 500;
+			--paper-tooltip_-_max-width: 330px;
+			--paper-tooltip_-_min-width: var(--paper-tooltip-min-width, 200px);
+			--paper-tooltip_-_padding: var(--paper-tooltip-padding, 10px 8px);
+    }
+  </style>
+  <div id=asdfextracontainer>
+    <template shadowroot=open>
+      <div style="display:inline-flex" id=asdfcontainer>
+        <template shadowroot=open>
+          <style>
+            :host {
+              display: inline-flex;
+              flex-wrap: wrap;
+              margin: calc(4 / -2);
+            }
+          </style>
+          <slot></slot>
+        </template>
+      </div>
+    </template>
+  </div>
+  <script>
+    const asdfcontainer = asdfextracontainer.shadowRoot.getElementById('asdfcontainer');
+    for (let i = 0; i < 10; i++) {
+      asdfcontainer.insertAdjacentHTML(`beforeend`, `
+      <div id=asdf${i}>asdf${i}</div>
+      <paper-tooltip
+        offset=0
+        fit-to-visible-bounds
+        for=asdf${i}
+        >
+          tooltip ${i}
+        </paper-tooltip>`);
+    }
+  </script>
+
+  <br><br><br><br>
+
+
+
+
+
+
+
+
   <div class="vertical-section-container centered">
     <h3>Tooltips can be anchored to elements using their ID</h3>
     <demo-snippet class="centered-demo">
@@ -70,10 +130,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div id="id_4" class="avatar orange" tabindex="0"></div>
 
         <!-- paper-icon-buttons have an inherent padding that will push the tooltip down. offset undoes it -->
-        <paper-tooltip for="id_1" offset="0">&lt;3 &lt;3 &lt;3 </paper-tooltip>
-        <paper-tooltip for="id_2" offset="0">wake up!</paper-tooltip>
-        <paper-tooltip for="id_3" offset="0">help I am trapped in a tooltip</paper-tooltip>
-        <paper-tooltip for="id_4" offset="0">meow!</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="id_1" offset="0">&lt;3 &lt;3 &lt;3 </paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="id_2" offset="0">wake up!</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="id_3" offset="0">help I am trapped in a tooltip</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="id_4" offset="0">meow!</paper-tooltip>
       </template>
     </demo-snippet>
 
@@ -83,15 +143,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Adding a tabindex so that we can show the tooltip when the whole box is tabbed to -->
         <div tabindex="0">
           <input type="checkbox">allosaurus
-          <paper-tooltip>the name means "different lizard"</paper-tooltip>
+          <paper-tooltip offset=0 fit-to-visible-bounds>the name means "different lizard"</paper-tooltip>
         </div>
         <div tabindex="0">
           <input type="checkbox">brontosaurus
-          <paper-tooltip>the name means "thunder lizard"</paper-tooltip>
+          <paper-tooltip offset=0 fit-to-visible-bounds>the name means "thunder lizard"</paper-tooltip>
         </div>
         <div tabindex="0">
           <input type="checkbox">megalosaurus
-          <paper-tooltip>the name means "roof lizard"</paper-tooltip>
+          <paper-tooltip offset=0 fit-to-visible-bounds>the name means "roof lizard"</paper-tooltip>
         </div>
 
       </template>
@@ -105,10 +165,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div id="dir_3" class="avatar green" tabindex="0"></div>
         <div id="dir_4" class="avatar orange" tabindex="0"></div>
 
-        <paper-tooltip for="dir_1" position="left" animation-delay="0">👈</paper-tooltip>
-        <paper-tooltip for="dir_2" position="right" animation-delay="0">👉</paper-tooltip>
-        <paper-tooltip for="dir_3" position="top" animation-delay="0">👍</paper-tooltip>
-        <paper-tooltip for="dir_4" position="bottom" animation-delay="0">👎</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="dir_1" position="left" animation-delay="0">👈</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="dir_2" position="right" animation-delay="0">👉</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="dir_3" position="top" animation-delay="0">👍</paper-tooltip>
+        <paper-tooltip offset=0 fit-to-visible-bounds for="dir_4" position="bottom" animation-delay="0">👎</paper-tooltip>
       </template>
     </demo-snippet>
 
@@ -130,7 +190,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </style>
         </custom-style>
         <paper-icon-button id="demo4_icon1" icon="favorite" alt="heart"></paper-icon-button>
-        <paper-tooltip for="demo4_icon1" class="custom" animation-delay="0">
+        <paper-tooltip offset=0 fit-to-visible-bounds for="demo4_icon1" class="custom" animation-delay="0">
           <img src="./donuts.png">
           Rich-text tooltips are doable but against the Material Design spec.
         </paper-tooltip>
@@ -141,7 +201,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <demo-snippet class="centered-demo">
       <template>
         <paper-icon-button id="demo5_icon1" icon="all-out" alt="clock" on-click="onClick"></paper-icon-button>
-        <paper-tooltip id="demo5_tooltip" for="demo5_icon1" animation-delay="500" animation-entry="scale-up-animation" animation-exit="scale-down-animation">
+        <paper-tooltip offset=0 fit-to-visible-bounds id="demo5_tooltip" for="demo5_icon1" animation-delay="500" animation-entry="scale-up-animation" animation-exit="scale-down-animation">
           This grows rather than fades in
         </paper-tooltip>
       </template>
@@ -166,7 +226,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <button id="demo6_btn_starthide">Start Animation Hide</button>
         <button id="demo6_btn_cancel">Animation Cancel</button>
         <paper-icon-button id="demo6_icon1" icon="schedule" alt="clock" on-click="onClick"></paper-icon-button>
-        <paper-tooltip id="demo6_tooltip" for="demo6_icon1" class="slowmo" animation-delay="500">
+        <paper-tooltip offset=0 fit-to-visible-bounds id="demo6_tooltip" for="demo6_icon1" class="slowmo" animation-delay="500">
           Slow Motion Load - Click to complete straight away
         </paper-tooltip>
         <script>
