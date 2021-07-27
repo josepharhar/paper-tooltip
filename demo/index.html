@@ -127,6 +127,17 @@
     </div>
   </div>
 
+  <script>
+    function convertTemplate(template) {
+      const mode = template.getAttribute('shadowroot');
+      const shadowRoot = template.parentNode.attachShadow({ mode });
+      shadowRoot.appendChild(template.content);
+      template.remove();
+
+      shadowRoot.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
+    }
+    document.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
+  </script>
 
   <script>
     const container = document.getElementById('selectAvatarWrapper').firstElementChild.shadowRoot
@@ -149,6 +160,7 @@
       container.appendChild(tooltip);
     }
   </script>
+
 
 </body>
 </html>
