@@ -5,44 +5,40 @@
 </script>
 
 <div id=selectavatardialog>
-  <template shadowroot=open>
-    <style>
-      .dialog {
-        display: block;
-        position: absolute;
-        left: 0px;
-        right: 0px;
-        width: 100px;
-        margin: auto;
-      }
-    </style>
-    <div class=dialog>
-      <slot name=body></slot>
-    </div>
-  </template>
-
-  <div slot=body>
-    <div id=selectAvatarWrapper class=custom-scrollbar>
-      <template shadowroot=open>
-        <div id=avatar-grid>
-          <style>
-            .bgimg {
-              background-color: red;
-              color: red;
-            }
-          </style>
-          <template shadowroot=open>
+  <style>
+    .dialog {
+      display: block;
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      width: 100px;
+      margin: auto;
+    }
+  </style>
+  <div class=dialog>
+    <div slot=body>
+      <div id=selectAvatarWrapper class=custom-scrollbar>
+        <template shadowroot=open>
+          <div id=avatar-grid>
             <style>
-              :host {
-                display: inline-flex;
-                flex-wrap: wrap;
-                margin: calc(var(--avatar-spacing) / -2);
+              .bgimg {
+                background-color: red;
+                color: red;
               }
             </style>
-            <slot></slot>
-          </template>
-        </div>
-      </template>
+            <template shadowroot=open>
+              <style>
+                :host {
+                  display: inline-flex;
+                  flex-wrap: wrap;
+                  margin: calc(var(--avatar-spacing) / -2);
+                }
+              </style>
+              <slot></slot>
+            </template>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </div>
