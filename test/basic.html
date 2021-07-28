@@ -118,6 +118,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
+  <test-fixture id="offset-parent-new-behavior">
+    <template>
+      <div id=container>
+        <template shadowroot=open>
+          <style>
+            .dialog {
+              display: block;
+              position: absolute;
+              left: 0px;
+              right: 0px;
+              width: 100px;
+              margin: auto;
+            }
+          </style>
+          <div class=dialog>
+            <slot></slot>
+          </div>
+        </template>
+        <div>
+          <div id=selectAvatarWrapper class=custom-scrollbar>
+            <div id=avatar-grid>
+              <div id=target style="height: 100px; width: 100px; background-color: red"></div>
+              <paper-tooltip for="target">tooltip text</paper-tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </test-fixture>
+
   <script type="module">
     import '@polymer/iron-test-helpers/mock-interactions.js';
     import '../paper-tooltip.js';
@@ -491,6 +521,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         expect(tooltip._removeListeners.callCount).to.be.equal(1);
         expect(tooltip._addListeners.callCount).to.be.equal(1);
+      });
+
+      test('offsetParent new spec behavior', function() {
+        var f = fixture('offset-parent-new-behavior');
+        var target = f.querySelector('#target');
+        var tooltip = f.querySelector('paper-tooltip');
+
+        var actualTooltip = dom(tooltip.root).querySelector('#tooltip');
+        assert.isTrue(isHidden(actualTooltip), 'lol');
+
+console.log('target:', target);
+console.log('tooltip:', tooltip);
+        MockInteractions.focus(target);
+        assert.isFalse(isHidden(actualTooltip), 'rofl');
+
+        var divRect = target.getBoundingClientRect();
+        console.log('one');
+        expectToBasicallyEqual(divRect.width, 100);
+        console.log('two ' + divRect.height);
+        expectToBasicallyEqual(divRect.height, 100);
+
+        var contentRect = tooltip.getBoundingClientRect();
+        console.log('three: ' + contentRect.width);
+        expectToBasicallyEqual(contentRect.width, 70);
+        console.log('four');
+        expectToBasicallyEqual(contentRect.height, 30);
+
+        console.log('five');
+        expectToBasicallyEqual(contentRect.left, (100 - 70) / 2);
+        console.log('six: ' + contentRect.top);
+        expectToBasicallyEqual(contentRect.top, 114);
+
+        // Also check the math, just in case.
+        console.log('seven');
+        expectToBasicallyEqual(
+            contentRect.left, (divRect.width - contentRect.width) / 2);
+        console.log('eight');
+        expectToBasicallyEqual(contentRect.top, divRect.height + tooltip.offset);
+        console.log('nine');
       });
     });
 
