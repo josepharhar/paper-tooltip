@@ -1,185 +1,42 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>paper-tooltip demo</title>
-  <meta charset="utf-8">
+<!DOCTYPE html>
+<script type="module">
+  import '../paper-tooltip.js';
+</script>
 
-  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@^2.0.0/webcomponents-loader.js"></script>
-  <script type="module">
-    import '@polymer/iron-demo-helpers/demo-snippet.js';
-    import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
-    import '@polymer/iron-icons/iron-icons.js';
-    import '@polymer/paper-icon-button/paper-icon-button.js';
-    import '@polymer/paper-styles/color.js';
-    import '../paper-tooltip.js';
-    import './test-button.js';
-    import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-    const template = html`
-    <custom-style>
-        <style is="custom-style" include="demo-pages-shared-styles">
-          paper-icon-button, input, .avatar {
-            margin: 0 10px;
-          }
-
-          .avatar {
-            box-sizing: border-box;
-            width: 40px;
-            height: 40px;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-          }
-
-          .blue {
-            background-color: var(--paper-light-blue-300);
-          }
-          .orange {
-            background-color: var(--paper-amber-500);
-          }
-          .green {
-            background-color: var(--paper-green-500);
-          }
-          .red {
-            background-color: var(--paper-pink-500);
-          }
-        </style>
-      </custom-style>`;
-    document.body.appendChild(template.content);
-  </script>
-</head>
-<body>
-
-  <style>
-    paper-tooltip {
-      --paper-tooltip-delay-in: 100ms;
-      --paper-tooltip-duration-in: 100ms;
-      --paper-tooltip-duration-out: 100ms;
-      --paper-tooltip-min-width: none;
-
-			--paper-tooltip_-_border-radius: var(--paper-tooltip-border-radius, 2px);
-			--paper-tooltip_-_font-size: 92.31%;
-			--paper-tooltip_-_font-weight: 500;
-			--paper-tooltip_-_max-width: 330px;
-			--paper-tooltip_-_min-width: var(--paper-tooltip-min-width, 200px);
-			--paper-tooltip_-_padding: var(--paper-tooltip-padding, 10px 8px);
-    }
-  </style>
-
-  <div id=selectavatardialog>
-    <template shadowroot=open>
-      <style>
-        .dialog {
-          display: block;
-          position: absolute;
-          left: 0px;
-          right: 0px;
-          /*width: fit-content;*/
-          width: 100px;
-          height: fit-content;
-          color: -internal-light-dark(black, white);
-          margin: auto;
-          border-width: initial;
-          border-style: solid;
-          border-color: initial;
-          border-image: initial;
-          padding: 1em;
-          background: -internal-light-dark(white, black);
-        }
-      </style>
-      <div class=dialog>
-        <style>
-          #content-wrapper {
-            display: flex;
-            flex-direction: column;
-            max-height: 100vh;
-            overflow: auto;
-          }
-        </style>
-        <div id=content-wrapper>
-          <style>
-            .body-container {
-              box-sizing: border-box;
-              display: flex;
-              flex-direction: column;
-              min-height: 1.375rem;
-              overflow: auto;
-            }
-          </style>
-          <div class=body-container id=container>
-          <slot name=body></slot>
-        </div>
-      </div>
-    </template>
-
-    <div slot=body>
-      <style>
-        #selectAvatarWrapper {
-          height: 394px;
-          overflow-x: hidden;
-          overflow-y: auto;
-        }
-      </style>
-      <div id=selectAvatarWrapper class=custom-scrollbar>
-        <div>
-          <template shadowroot=open>
-            <div id=avatar-grid>
-            <style>
-              .bgimg {
-                background-image: url("data:image/png;base64\,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAADK0lEQVR4nO3bP0wTYRzG8afqCLiC4UY0ph0EErWXWBdDG8aG0MmI5c+ChoQ2wUnAyZWVagxjOzg2bdMJk1YdwIGLkY5HUuaGXQc11AQSaO/P88rzWeldf8mXu97bFyLD8Vs/ITSuhT2A/EtByCgIGQUhoyBkFISMgpBREDIKQkZByCgIGQUhoyBkFISMgpBREDIKQkZByCgIGQUhoyBkFISMgpBREDIKQkZByCgIGQUhoyBkFISMgpBREDI3wh6gH/F7D2FP2LBGRgEAbvsIjb0Gmt8+hzxZ7yIm/gdVKpHEm5VNWCPWmT932y5eb62jslsNeLL+GRdkc2UDS5nFC712u1jA+taGzxN56/qANWjMxPn5HF4+fXHh10/GJhFBBI39po9TecuYKyQ6FkV9p9bTsU+eTcFpOR5P5A9jnrLy87lQjg2aEVfI0MAQftS+93WOO1N30TnpeDSRf4y4QmJjUYpzBMGIIFeJgpAxIojbdinOEQQzghwf9fXY6rQcuMdHHk7kHyOCAECh+C6UY4NmTJBiuYRmDyvu5n4TxXLJh4n8YUwQAJhby17q1uW0HMytZX2cyHtGBemcdJBenkHpAr/xpXIJ6eUZIxaD3YxYqZ/FHo8jlUjBnogj+mfR57QcNPaaqOxWjPpCsZuxQf5XRt2yrgLjtnC7t23/7hh237KA34tAU7dz6W9Z1vAokokkMtOziN2O9XSOg8MDFMslVHer9AtE2iDJR1NYyizCnrA9PW9jr4HtYgHVT71tdvmNLkh0LIoPb9+f+wcMXnHbLp6/mqfbSaT6UM9lV1HfqfkeAwCsEQv1nRpy2VXf3+syaIJkpmeRXwh+qzW/kENmejbw9z0PxS3LGh7F149fQp3hfvoBxQc+xRWSepwKewSKGQCSIPa4t09Sps4AkAS5OTgU9ggUMwAkQeSUgpBREDIKQobi296Dw/C/vmCYASBZGMop3bLIKAgZBSGjIGQUhIyCkFEQMgpCRkHIKAgZBSGjIGQUhIyCkFEQMgpCRkHIKAgZBSGjIGQUhIyCkFEQMgpCRkHIKAgZBSGjIGQUhIyCkFEQMgpC5heBisJGOZRvhgAAAABJRU5ErkJggg==");
-                }
-            </style>
-              <template shadowroot=open>
-                <style>
-                  :host {
-                    display: inline-flex;
-                    flex-wrap: wrap;
-                    margin: calc(var(--avatar-spacing) / -2);
-                  }
-                </style>
-                <slot></slot>
-              </template>
-            </div>
-          </template>
-        </div>
+<div>
+  <template shadowroot=open>
+    <style>
+      .dialog {
+        display: block;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        width: 100px;
+        margin: auto;
+      }
+    </style>
+    <div class=dialog>
+      <slot></slot>
+    </div>
+  </template>
+  <div>
+    <div id=selectAvatarWrapper class=custom-scrollbar>
+      <div id=avatar-grid>
+        <div style="height: 100px; width: 100px; background-color: red"></div>
+        <paper-tooltip>tooltip text</paper-tooltip>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    function convertTemplate(template) {
-      const mode = template.getAttribute('shadowroot');
-      const shadowRoot = template.parentNode.attachShadow({ mode });
-      shadowRoot.appendChild(template.content);
-      template.remove();
+<script>
+  function convertTemplate(template) {
+    const mode = template.getAttribute('shadowroot');
+    const shadowRoot = template.parentNode.attachShadow({ mode });
+    shadowRoot.appendChild(template.content);
+    template.remove();
 
-      shadowRoot.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
-    }
-    document.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
-  </script>
-
-  <script>
-    const container = document.getElementById('selectAvatarWrapper').firstElementChild.shadowRoot
-          .getElementById('avatar-grid');
-    //const numprofiles = 25;
-    const numprofiles = 1;
-    for (let i = 0; i < numprofiles; i++) {
-      const div = document.createElement('div');
-      div.classList = 'cr-button avatar iron-selected bgimg';
-      container.appendChild(div);
-
-      div.style = 'height: 100px; width: 100px;'
-
-      const tooltip = document.createElement('paper-tooltip');
-      tooltip.setAttribute('offset', '0');
-      tooltip.setAttribute('fit-to-visible-bounds', '');
-      tooltip.setAttribute('role', 'tooltip');
-      tooltip.setAttribute('tabindex', '-1');
-      tooltip.textContent = ' Default avatar ';
-      container.appendChild(tooltip);
-    }
-  </script>
-
-
-</body>
-</html>
+    shadowRoot.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
+  }
+  document.querySelectorAll('template[shadowroot]').forEach(template => convertTemplate(template));
+</script>
